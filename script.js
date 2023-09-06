@@ -10,7 +10,8 @@ function hideLoadingScreen() {
 
 // Function to fetch and display data
 async function fetchAndDisplay() {
-    const gmail = document.getElementById("gmail").value;
+    const gmailInput = document.getElementById("gmail");
+    const gmail = gmailInput.value;
     showLoadingScreen();
 
     try {
@@ -77,11 +78,7 @@ async function fetchAndDisplay() {
 
                     if (key === 'result status') { // Check if it's the "result status" column
                         const resultStatus = item[key].toLowerCase();
-                        if (resultStatus === 'fail') {
-                            dataRow.style.backgroundColor = '#ff0000';
-                        } else if (resultStatus === 'pass') {
-                            dataRow.style.backgroundColor = 'green';
-                        }
+                        td.className = resultStatus === 'fail' ? 'fail' : 'pass'; // Use CSS class for coloring
                     }
 
                     dataRow.appendChild(td);
@@ -97,6 +94,9 @@ async function fetchAndDisplay() {
             notFoundDiv.textContent = "No data found for the provided Gmail address.";
             dataContainer.appendChild(notFoundDiv);
         }
+
+        // Clear the input field after data is displayed
+        gmailInput.value = "";
 
         hideLoadingScreen();
     } catch (error) {
